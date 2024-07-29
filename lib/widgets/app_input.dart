@@ -3,6 +3,7 @@ import 'package:app_cobranca_pix/widgets/app_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'dart:io' show Platform;
 
 enum AppInputTypes {
   solid,
@@ -81,7 +82,9 @@ class _AppInputState extends State<AppInput> {
             Expanded(
                 child: TextField(
                   onTapOutside: (event) {
-                    inputFocusNode.unfocus();
+                    if (Platform.isIOS) {
+                      inputFocusNode.unfocus();
+                    }
                   },
                   controller: widget.controller,
                   onChanged: (value) {

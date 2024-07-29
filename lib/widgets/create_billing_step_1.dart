@@ -65,63 +65,61 @@ class CreateBillingStep1 extends StatelessWidget {
                 height: 32,
               ),
               AppDropdown(
-                  triggerChild: Flexible(
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: Colors.white.withOpacity(.36)))),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              if (createBillingProvider.selectedKey != null)
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(26),
-                                  child: Image.asset(
-                                    createBillingProvider.selectedKey!.bankLogo,
-                                    height: 26,
-                                  ),
-                                )
-                              else
-                                AppIcon(
-                                  assetName: 'assets/images/key.svg',
+                  triggerChild: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: Colors.white.withOpacity(.36)))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            if (createBillingProvider.selectedKey != null)
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(26),
+                                child: Image.asset(
+                                  createBillingProvider.selectedKey!.bankLogo,
                                   height: 26,
-                                  color: Theme.of(context).colorScheme.primary,
                                 ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                createBillingProvider.selectedKey != null
-                                    ? createBillingProvider
-                                        .selectedKey!.bankName
-                                    : 'Chave para recebimento',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.merge(TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary)),
                               )
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 16,
-                          ),
-                          if (createBillingProvider.selectedKey != null)
-                            Expanded(
-                              child: Text(
-                                createBillingProvider.selectedKey!.value,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.right,
+                            else
+                              AppIcon(
+                                assetName: 'assets/images/key.svg',
+                                height: 26,
+                                color: Theme.of(context).colorScheme.primary,
                               ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              createBillingProvider.selectedKey != null
+                                  ? createBillingProvider
+                                      .selectedKey!.bankName
+                                  : 'Chave para recebimento',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.merge(TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary)),
                             )
-                        ],
-                      ),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 16,
+                        ),
+                        if (createBillingProvider.selectedKey != null)
+                          Expanded(
+                            child: Text(
+                              createBillingProvider.selectedKey!.value,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.right,
+                            ),
+                          )
+                      ],
                     ),
                   ),
                   child: FutureBuilder(

@@ -34,19 +34,17 @@ class _AppDropdownState extends State<AppDropdown> {
                 show = !show;
               });
             },
-            child: Expanded(
-              child: Stack(
-                alignment: Alignment.centerRight,
-                children: [
-                  widget.triggerChild,
-                  if (widget.iconAssetName != null)
-                    Positioned(
-                        right: 16,
-                        child: Transform.rotate(
-                            angle: show ? pi : 0,
-                            child: AppIcon(assetName: widget.iconAssetName!)))
-                ],
-              ),
+            child: Stack(
+              alignment: Alignment.centerRight,
+              children: [
+                widget.triggerChild,
+                if (widget.iconAssetName != null)
+                  Positioned(
+                      right: 16,
+                      child: Transform.rotate(
+                          angle: show ? pi : 0,
+                          child: AppIcon(assetName: widget.iconAssetName!)))
+              ],
             ),
           ),
         ),

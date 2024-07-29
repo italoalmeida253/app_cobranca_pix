@@ -6,7 +6,7 @@ import 'package:crclib/catalog.dart';
 
 String getBrCode(PixKey pixKey, double? pixValue) {
   late String formattedPixKey;
-  late String? formattedPixValueLength;
+  String? formattedPixValueLength;
   String? formattedPixValue = pixValue?.toStringAsFixed(2);
 
   if (formattedPixValue != null) {
@@ -34,7 +34,7 @@ String getBrCode(PixKey pixKey, double? pixValue) {
   }
 
   final String brCode =
-      '00020126${formattedPixKey.length + 14 + 4 + 4}0014BR.GOV.BCB.PIX01${formattedPixKey.length.toString().padLeft(2, '0')}${formattedPixKey}52040000530398654${formattedPixValueLength ?? ''}${formattedPixValue ?? ''}5802BR5901N6001C62070503***6304';
+      '00020126${formattedPixKey.length + 14 + 4 + 4}0014BR.GOV.BCB.PIX01${formattedPixKey.length.toString().padLeft(2, '0')}${formattedPixKey}5204000053039865${formattedPixValueLength != null ? '4$formattedPixValueLength' : ''}${formattedPixValue != null ? '${formattedPixValue}5' : ''}802BR5901N6001C62070503***6304';
   final String crc = calculateBrCodeCrc(brCode);
 
   return '$brCode$crc';
