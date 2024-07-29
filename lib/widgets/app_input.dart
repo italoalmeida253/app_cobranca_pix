@@ -80,6 +80,9 @@ class _AppInputState extends State<AppInput> {
               ),
             Expanded(
                 child: TextField(
+                  onTapOutside: (event) {
+                    inputFocusNode.unfocus();
+                  },
                   controller: widget.controller,
                   onChanged: (value) {
                     if (widget.onChanged != null) {

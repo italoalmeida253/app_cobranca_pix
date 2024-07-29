@@ -8,7 +8,9 @@ import 'package:app_cobranca_pix/widgets/app_icon.dart';
 import 'package:app_cobranca_pix/widgets/button.dart';
 import 'package:app_cobranca_pix/widgets/currency_input.dart';
 import 'package:app_cobranca_pix/widgets/key_card.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:isar/isar.dart';
 import 'package:provider/provider.dart';
 
@@ -63,53 +65,63 @@ class CreateBillingStep1 extends StatelessWidget {
                 height: 32,
               ),
               AppDropdown(
-                  triggerChild: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                color: Colors.white.withOpacity(.36)))),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            if (createBillingProvider.selectedKey != null)
-                              Image.asset(
-                                'assets/images/bradesco-logo.png',
-                                height: 26,
-                              )
-                            else
-                              AppIcon(
-                                assetName: 'assets/images/key.svg',
-                                height: 26,
-                                color: Theme.of(context).colorScheme.primary,
+                  triggerChild: Flexible(
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: Colors.white.withOpacity(.36)))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              if (createBillingProvider.selectedKey != null)
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(26),
+                                  child: Image.asset(
+                                    createBillingProvider.selectedKey!.bankLogo,
+                                    height: 26,
+                                  ),
+                                )
+                              else
+                                AppIcon(
+                                  assetName: 'assets/images/key.svg',
+                                  height: 26,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              const SizedBox(
+                                width: 8,
                               ),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              createBillingProvider.selectedKey != null
-                                  ? createBillingProvider.selectedKey!.bankName
-                                  : 'Chave para recebimento',
-                              style: Theme.of(context).textTheme.bodyMedium?.merge(
-                                TextStyle(color: Theme.of(context).colorScheme.primary)
+                              Text(
+                                createBillingProvider.selectedKey != null
+                                    ? createBillingProvider
+                                        .selectedKey!.bankName
+                                    : 'Chave para recebimento',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.merge(TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary)),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          if (createBillingProvider.selectedKey != null)
+                            Expanded(
+                              child: Text(
+                                createBillingProvider.selectedKey!.value,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.right,
                               ),
                             )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            if (createBillingProvider.selectedKey != null)
-                              Text(createBillingProvider.selectedKey!.value),
-/*                         const AppIcon(
-                          assetName: 'assets/images/chevron-up.svg',
-                          height: 12,
-                          color: Colors.white,
-                        ) */
-                          ],
-                        )
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   child: FutureBuilder(

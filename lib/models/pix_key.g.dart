@@ -17,24 +17,29 @@ const PixKeySchema = CollectionSchema(
   name: r'PixKey',
   id: 341676774031271730,
   properties: {
-    r'bankName': PropertySchema(
+    r'bankLogo': PropertySchema(
       id: 0,
+      name: r'bankLogo',
+      type: IsarType.string,
+    ),
+    r'bankName': PropertySchema(
+      id: 1,
       name: r'bankName',
       type: IsarType.string,
     ),
     r'description': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'description',
       type: IsarType.string,
     ),
     r'type': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'type',
       type: IsarType.byte,
       enumMap: _PixKeytypeEnumValueMap,
     ),
     r'value': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'value',
       type: IsarType.string,
     )
@@ -59,6 +64,7 @@ int _pixKeyEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.bankLogo.length * 3;
   bytesCount += 3 + object.bankName.length * 3;
   bytesCount += 3 + object.description.length * 3;
   bytesCount += 3 + object.value.length * 3;
@@ -71,10 +77,11 @@ void _pixKeySerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.bankName);
-  writer.writeString(offsets[1], object.description);
-  writer.writeByte(offsets[2], object.type.index);
-  writer.writeString(offsets[3], object.value);
+  writer.writeString(offsets[0], object.bankLogo);
+  writer.writeString(offsets[1], object.bankName);
+  writer.writeString(offsets[2], object.description);
+  writer.writeByte(offsets[3], object.type.index);
+  writer.writeString(offsets[4], object.value);
 }
 
 PixKey _pixKeyDeserialize(
@@ -84,11 +91,12 @@ PixKey _pixKeyDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = PixKey(
-    bankName: reader.readString(offsets[0]),
-    description: reader.readString(offsets[1]),
-    type: _PixKeytypeValueEnumMap[reader.readByteOrNull(offsets[2])] ??
+    bankLogo: reader.readString(offsets[0]),
+    bankName: reader.readString(offsets[1]),
+    description: reader.readString(offsets[2]),
+    type: _PixKeytypeValueEnumMap[reader.readByteOrNull(offsets[3])] ??
         PixKeyTypes.phone,
-    value: reader.readString(offsets[3]),
+    value: reader.readString(offsets[4]),
   );
   object.id = id;
   return object;
@@ -106,9 +114,11 @@ P _pixKeyDeserializeProp<P>(
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
+      return (reader.readString(offset)) as P;
+    case 3:
       return (_PixKeytypeValueEnumMap[reader.readByteOrNull(offset)] ??
           PixKeyTypes.phone) as P;
-    case 3:
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -218,6 +228,136 @@ extension PixKeyQueryWhere on QueryBuilder<PixKey, PixKey, QWhereClause> {
 }
 
 extension PixKeyQueryFilter on QueryBuilder<PixKey, PixKey, QFilterCondition> {
+  QueryBuilder<PixKey, PixKey, QAfterFilterCondition> bankLogoEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'bankLogo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PixKey, PixKey, QAfterFilterCondition> bankLogoGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'bankLogo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PixKey, PixKey, QAfterFilterCondition> bankLogoLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'bankLogo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PixKey, PixKey, QAfterFilterCondition> bankLogoBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'bankLogo',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PixKey, PixKey, QAfterFilterCondition> bankLogoStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'bankLogo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PixKey, PixKey, QAfterFilterCondition> bankLogoEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'bankLogo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PixKey, PixKey, QAfterFilterCondition> bankLogoContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'bankLogo',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PixKey, PixKey, QAfterFilterCondition> bankLogoMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'bankLogo',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PixKey, PixKey, QAfterFilterCondition> bankLogoIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'bankLogo',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<PixKey, PixKey, QAfterFilterCondition> bankLogoIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'bankLogo',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<PixKey, PixKey, QAfterFilterCondition> bankNameEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -719,6 +859,18 @@ extension PixKeyQueryObject on QueryBuilder<PixKey, PixKey, QFilterCondition> {}
 extension PixKeyQueryLinks on QueryBuilder<PixKey, PixKey, QFilterCondition> {}
 
 extension PixKeyQuerySortBy on QueryBuilder<PixKey, PixKey, QSortBy> {
+  QueryBuilder<PixKey, PixKey, QAfterSortBy> sortByBankLogo() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'bankLogo', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PixKey, PixKey, QAfterSortBy> sortByBankLogoDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'bankLogo', Sort.desc);
+    });
+  }
+
   QueryBuilder<PixKey, PixKey, QAfterSortBy> sortByBankName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'bankName', Sort.asc);
@@ -769,6 +921,18 @@ extension PixKeyQuerySortBy on QueryBuilder<PixKey, PixKey, QSortBy> {
 }
 
 extension PixKeyQuerySortThenBy on QueryBuilder<PixKey, PixKey, QSortThenBy> {
+  QueryBuilder<PixKey, PixKey, QAfterSortBy> thenByBankLogo() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'bankLogo', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PixKey, PixKey, QAfterSortBy> thenByBankLogoDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'bankLogo', Sort.desc);
+    });
+  }
+
   QueryBuilder<PixKey, PixKey, QAfterSortBy> thenByBankName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'bankName', Sort.asc);
@@ -831,6 +995,13 @@ extension PixKeyQuerySortThenBy on QueryBuilder<PixKey, PixKey, QSortThenBy> {
 }
 
 extension PixKeyQueryWhereDistinct on QueryBuilder<PixKey, PixKey, QDistinct> {
+  QueryBuilder<PixKey, PixKey, QDistinct> distinctByBankLogo(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'bankLogo', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<PixKey, PixKey, QDistinct> distinctByBankName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -863,6 +1034,12 @@ extension PixKeyQueryProperty on QueryBuilder<PixKey, PixKey, QQueryProperty> {
   QueryBuilder<PixKey, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<PixKey, String, QQueryOperations> bankLogoProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'bankLogo');
     });
   }
 

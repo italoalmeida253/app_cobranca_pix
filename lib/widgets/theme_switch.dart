@@ -50,8 +50,8 @@ class _ThemeSwitchState extends State<ThemeSwitch> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {
-                    MyApp.of(context).changeThemeMode(ThemeMode.dark);
+                  onTap: () async {
+                    await MyApp.of(context).changeThemeMode(ThemeMode.dark);
                   },
                   child: const AppIcon(
                     assetName: 'assets/images/moon.svg',

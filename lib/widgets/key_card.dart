@@ -50,7 +50,10 @@ class KeyCard extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                Image.asset('assets/images/bradesco-logo.png'),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(38),
+                  child: Image.asset(pixKey.bankLogo, height: 38,),
+                ),
                 const SizedBox(
                   width: 16,
                 ),

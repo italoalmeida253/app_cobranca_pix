@@ -2,7 +2,6 @@ import 'package:app_cobranca_pix/widgets/app_container.dart';
 import 'package:app_cobranca_pix/widgets/settings_item_tile.dart';
 import 'package:app_cobranca_pix/widgets/theme_switch.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -13,7 +12,11 @@ class SettingsScreen extends StatelessWidget {
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            Positioned.fill(
+            Positioned(
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 300,
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 48),
                 decoration: const BoxDecoration(

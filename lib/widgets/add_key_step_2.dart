@@ -19,8 +19,12 @@ class AddKeyStep2 extends StatelessWidget {
     final addKeyProvider = context.watch<AddKeyProvider>();
 
     if (addKeyProvider.editPixKey != null) {
-      keyValueController.text = addKeyProvider.editPixKey!.value;
-      keyDescriptionController.text = addKeyProvider.editPixKey!.description;
+      if (keyValueController.text.isEmpty) {
+        keyValueController.text = addKeyProvider.editPixKey!.value;
+      }
+      if (keyDescriptionController.text.isEmpty) {
+        keyDescriptionController.text = addKeyProvider.editPixKey!.description;
+      }
     }
 
     return Padding(
@@ -33,7 +37,7 @@ class AddKeyStep2 extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Insira seu ${addKeyProvider.label}',
+                addKeyProvider.label,
                 style: Theme.of(context).textTheme.displayLarge,
                 textAlign: TextAlign.start,
               ),
@@ -83,7 +87,7 @@ class AddKeyStep2 extends StatelessWidget {
               AppDropdown(
                 iconAssetName: 'assets/images/chevron-down.svg',
                 triggerChild: BankTile(
-                  bankName: addKeyProvider.bankName ?? 'Selecione um banco',
+                  bank: addKeyProvider.bank,
                 ),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxHeight: 100),
@@ -96,7 +100,7 @@ class AddKeyStep2 extends StatelessWidget {
                           onTap: () {
                             addKeyProvider.selectBank(banks[index]);
                           },
-                          child: BankTile(bankName: banks[index]))),
+                          child: BankTile(bank: banks[index]))),
                 ),
               )
             ],
@@ -108,7 +112,7 @@ class AddKeyStep2 extends StatelessWidget {
                 onTap: () async {
                   if (keyValueController.text.isEmpty ||
                       keyDescriptionController.text.isEmpty ||
-                      addKeyProvider.bankName == null) {
+                      addKeyProvider.bank == null) {
                     return;
                   }
                   Navigator.pop(context);

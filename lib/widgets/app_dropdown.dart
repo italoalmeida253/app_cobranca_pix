@@ -24,27 +24,35 @@ class _AppDropdownState extends State<AppDropdown> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
           padding: EdgeInsets.only(bottom: show ? 8 : 0),
           child: GestureDetector(
             onTap: () {
-              debugPrint(show.toString());
               setState(() {
                 show = !show;
               });
             },
-            child: Stack(
-              alignment: Alignment.centerRight,
-              children: [
-                widget.triggerChild,
-                if (widget.iconAssetName != null)
-                  Positioned(right: 16, child: Transform.rotate(angle: show ? pi : 0, child: AppIcon(assetName: widget.iconAssetName!)))
-              ],
+            child: Expanded(
+              child: Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  widget.triggerChild,
+                  if (widget.iconAssetName != null)
+                    Positioned(
+                        right: 16,
+                        child: Transform.rotate(
+                            angle: show ? pi : 0,
+                            child: AppIcon(assetName: widget.iconAssetName!)))
+                ],
+              ),
             ),
           ),
         ),
-        if (show) widget.child
+        if (show) GestureDetector(onTap: () {
+          debugPrint('teste');
+        }, child: widget.child)
       ],
     );
   }

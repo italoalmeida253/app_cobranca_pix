@@ -1,4 +1,5 @@
 import 'package:app_cobranca_pix/constants/index.dart';
+import 'package:app_cobranca_pix/models/bank.dart';
 import 'package:app_cobranca_pix/models/pix_key.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
@@ -7,49 +8,49 @@ import '../services/isar.dart';
 
 class AddKeyProvider with ChangeNotifier {
   PixKeyTypes? _keyType;
-  String? _bankName;
+  Bank? _bank;
   MaskTextInputFormatter? inputMask;
   TextInputType? keyboardType;
   PixKey? editPixKey;
+  PixKeyTypes? get selectedKey => _keyType;
+  Bank? get bank => _bank;
   late String label;
 
   AddKeyProvider({this.editPixKey}) {
     if (editPixKey != null) {
       selectKeyType(editPixKey!.type);
-      _bankName = editPixKey!.bankName;
+      _bank =
+          Bank(name: editPixKey!.bankName, logoAssetName: editPixKey!.bankLogo);
     }
   }
-
-  PixKeyTypes? get selectedKey => _keyType;
-  String? get bankName => _bankName;
 
   selectKeyType(PixKeyTypes type) {
     switch (type) {
       case PixKeyTypes.phone:
-        label = 'celular';
+        label = 'Insira seu celular';
         keyboardType = TextInputType.number;
         inputMask = MaskTextInputFormatter(
             mask: '(##) #####-####', filter: {'#': RegExp(r'[0-9]')});
         break;
       case PixKeyTypes.email:
-        label = 'email';
+        label = 'Insira seu email';
         break;
       case PixKeyTypes.cpf:
-        label = 'CPF';
+        label = 'Insira seu CPF';
         keyboardType = TextInputType.number;
         inputMask = MaskTextInputFormatter(
             mask: '###.###.###-##', filter: {'#': RegExp(r'[0-9]')});
         break;
       case PixKeyTypes.cnpj:
-        label = 'CNPJ';
+        label = 'Insira seu CNPJ';
         keyboardType = TextInputType.number;
         inputMask = MaskTextInputFormatter(
             mask: '##.###.###/####-##', filter: {'#': RegExp(r'[0-9]')});
         break;
       case PixKeyTypes.randomKey:
-        label = 'chave aleatória';
+        label = 'Insira sua chave aleatória';
         inputMask = MaskTextInputFormatter(
-            mask: '########-####-####-####-########',
+            mask: '########-####-####-####-############',
             filter: {'#': RegExp(r'[0-9a-zA-z]')});
         break;
     }
@@ -57,13 +58,13 @@ class AddKeyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  selectBank(String bank) {
-    _bankName = bank;
+  selectBank(Bank bank) {
+    _bank = bank;
     notifyListeners();
   }
 
   saveKey(String value, String description) async {
-    if (_keyType == null || _bankName == null) {
+    if (_keyType == null || _bank == null) {
       throw ErrorDescription(
           'Key addition failed. One or more values are missing.');
     }
@@ -76,8 +77,8 @@ class AddKeyProvider with ChangeNotifier {
           .findFirst());
 
       if (addedPixKey != null) {
-        debugPrint('ok');
-        addedPixKey.bankName = _bankName!;
+        addedPixKey.bankName = _bank!.name;
+        addedPixKey.bankLogo = _bank!.logoAssetName;
         addedPixKey.description = description;
         addedPixKey.value = value;
 
@@ -87,10 +88,15 @@ class AddKeyProvider with ChangeNotifier {
       return;
     }
 
-    await IsarDatabase.isar.writeTxn(() => IsarDatabase.isar.pixKeys.put(PixKey(
-        type: _keyType!,
-        bankName: _bankName!,
-        value: value,
-        description: description)));
+    final newPixKey = PixKey(
+      type: _keyType!,
+      value: value,
+      description: description,
+      bankName: bank!.name,
+      bankLogo: bank!.logoAssetName,
+    );
+
+    await IsarDatabase.isar
+        .writeTxn(() => IsarDatabase.isar.pixKeys.put(newPixKey));
   }
 }

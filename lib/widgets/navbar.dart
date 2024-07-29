@@ -2,7 +2,6 @@ import 'package:app_cobranca_pix/constants/index.dart';
 import 'package:app_cobranca_pix/screens/create_billing_screen.dart';
 import 'package:app_cobranca_pix/screens/home_screen.dart';
 import 'package:app_cobranca_pix/screens/keys_screen.dart';
-import 'package:app_cobranca_pix/widgets/app_icon.dart';
 import 'package:app_cobranca_pix/widgets/navbar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:app_cobranca_pix/screens/settings_screen.dart';
@@ -17,6 +16,8 @@ class Navbar extends StatefulWidget {
 class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) {
+    final String? currentPath = ModalRoute.of(context)?.settings.name;
+
     return Container(
       height: navbarHeight,
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -28,32 +29,28 @@ class _NavbarState extends State<Navbar> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           NavbarItem(
-              linkTo: HomeScreen(),
-              icon: AppIcon(
-                assetName: 'assets/images/house.svg',
-                height: 20,
-              ),
+              linkTo: const HomeScreen(),
+              routeName: '/',
+              focused: '/' == currentPath,
+              iconAssetName: 'assets/images/house.svg',
               label: 'Início'),
           NavbarItem(
-              linkTo: KeysScreen(),
-              icon: AppIcon(
-                assetName: 'assets/images/key.svg',
-                height: 20,
-              ),
+              linkTo: const KeysScreen(),
+              routeName: '/keys',
+              focused: '/keys' == currentPath,
+              iconAssetName: 'assets/images/key.svg',
               label: 'Chaves'),
           NavbarItem(
-              linkTo: CreateBillingScreen(),
-              icon: AppIcon(
-                assetName: 'assets/images/qr.svg',
-                height: 20,
-              ),
+              linkTo: const CreateBillingScreen(),
+              routeName: '/create-billing',
+              focused: '/create-billing' == currentPath,
+              iconAssetName: 'assets/images/qr.svg',
               label: 'Cobranças'),
           NavbarItem(
-              linkTo: SettingsScreen(),
-              icon: AppIcon(
-                assetName: 'assets/images/gear.svg',
-                height: 20,
-              ),
+              linkTo: const SettingsScreen(),
+              routeName: '/settings',
+              focused: '/settings' == currentPath,
+              iconAssetName: 'assets/images/gear.svg',
               label: 'Configurações'),
         ],
       ),

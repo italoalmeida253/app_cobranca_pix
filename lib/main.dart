@@ -2,6 +2,7 @@ import 'package:app_cobranca_pix/constants/index.dart';
 import 'package:app_cobranca_pix/screens/home_screen.dart';
 import 'package:app_cobranca_pix/services/isar.dart';
 import 'package:app_cobranca_pix/theme/colors.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,7 @@ late SharedPreferences prefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await IsarDatabase.initialize();
+  await AppTrackingTransparency.requestTrackingAuthorization();
   prefs = await SharedPreferences.getInstance();
 
   runApp(const MyApp());
@@ -27,9 +29,20 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = ThemeMode.system;
+  bool? darkModePref = prefs.getBool(UserPrefs.darkModeKey.toString());
+  late ThemeMode _themeMode;
   ThemeMode get themeMode => _themeMode;
   late bool lightTheme;
+
+  @override
+  initState() {
+    super.initState();
+    if (darkModePref != null) {
+      _themeMode = darkModePref! ? ThemeMode.dark : ThemeMode.light;
+    } else {
+      _themeMode = ThemeMode.system;
+    }
+  }
 
   changeThemeMode(ThemeMode themeMode) async {
     if (themeMode == ThemeMode.dark) {

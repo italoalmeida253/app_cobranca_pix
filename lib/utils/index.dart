@@ -23,12 +23,10 @@ String getBrCode(PixKey pixKey, double? pixValue) {
       formattedPixKey = pixKey.value;
       break;
     case PixKeyTypes.cpf:
-      formattedPixKey =
-          '+55${pixKey.value.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '')}';
+      formattedPixKey = pixKey.value.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '');
       break;
     case PixKeyTypes.cnpj:
-      formattedPixKey =
-          '+55${pixKey.value.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '')}';
+      formattedPixKey = pixKey.value.replaceAll(RegExp(r'[^a-zA-Z0-9]'), '');
       break;
     case PixKeyTypes.randomKey:
       formattedPixKey = pixKey.value;
