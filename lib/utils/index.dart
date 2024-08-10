@@ -45,5 +45,14 @@ calculateBrCodeCrc(String brCode) {
 
   var crcValue =
       Crc16CcittFalse().convert(data).toRadixString(16).toUpperCase();
-  return crcValue;
+  String formattedCrcValue = '';
+  crcValue.split('').forEach((char) {
+    int? number = int.tryParse(char);
+    if (number != null) {
+      formattedCrcValue += number.toString().padLeft(2, '0');
+    } else {
+      formattedCrcValue += char;
+    }
+  });
+  return formattedCrcValue;
 }

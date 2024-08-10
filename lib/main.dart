@@ -4,6 +4,7 @@ import 'package:app_cobranca_pix/services/isar.dart';
 import 'package:app_cobranca_pix/theme/colors.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,6 +15,7 @@ void main() async {
   await IsarDatabase.initialize();
   await AppTrackingTransparency.requestTrackingAuthorization();
   prefs = await SharedPreferences.getInstance();
+  debugRepaintRainbowEnabled = true;
 
   runApp(const MyApp());
 }

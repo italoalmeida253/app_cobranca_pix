@@ -16,6 +16,7 @@ final List<Bank> banks = [
   Bank(name: 'Mercado Pago', logoAssetName: 'assets/images/mercado-pago.png'),
   Bank(name: 'PagBank', logoAssetName: 'assets/images/pagbank.png'),
   Bank(name: 'Inter', logoAssetName: 'assets/images/inter.png'),
+  Bank(name: 'Stone', logoAssetName: 'assets/images/stone.png'),
   Bank(name: 'C6 Bank', logoAssetName: 'assets/images/c6-bank.png'),
   Bank(name: 'BTG Pactual', logoAssetName: 'assets/images/btg-pactual.png'),
   Bank(name: 'Neon', logoAssetName: 'assets/images/neon.png'),
